@@ -1,14 +1,43 @@
-const Header = () => {
+import { LOCALES } from "../translations/locales";
+import { FormattedMessage } from "react-intl";
+
+const Header = ({currentLocale, setCurrentLocale}) => {
+
   const menu = [
     {
-      title: "About the project",
+      id: 'about_project',
       path: "#",
     },
     {
-      title: "Contact us",
+      id: "contact_us",
       path: "#",
     },
   ];
+
+  const locales = [
+    {
+      title: 'English',
+      value: LOCALES.ENGLISH
+    },
+    {
+      title: 'French',
+      value: LOCALES.FRENCH
+    },
+    {
+      title: 'German',
+      value: LOCALES.GERMAN
+    },
+    {
+      title: 'Japanese',
+      value: LOCALES.JAPANESE
+    }
+  ]
+
+  function handleLocaleChange(e) {
+    let value = e.target.value
+    setCurrentLocale(value)
+    localStorage.setItem('locale', value)
+  }
 
   return (
     <header>
@@ -16,15 +45,24 @@ const Header = () => {
         <div className="brand">ReactIntl</div>
         <nav>
           <ul>
-            {menu.map(({ title, path }) => (
-              <li key={title}>
-                <a href={path}>{title}</a>
+            {menu.map(({ id, path }) => (
+              <li key={id}>
+                <a href={path}><FormattedMessage id={id} /></a>
               </li>
             ))}
           </ul>
         </nav>
         <div className="spacer"></div>
-        <div className="switcher">{/* Language switch dropdown here */}</div>
+        <div className="switcher">
+          <FormattedMessage id='languages' />:&nbsp;
+          <select onChange={handleLocaleChange} value={currentLocale}>
+            {locales.map(({ title, value }) => (
+              <option key={value} value={value}>
+                {title}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </header>
   );

@@ -1,14 +1,24 @@
+import {useState} from "react";
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
+import {IntlProvider} from "react-intl";
+import { LOCALES } from "../translations/locales";
+import { messages } from "../translations/messsages";
 
 const App = () => {
+  const [currentLocale, setCurrentLocale] = useState(initCurrentLocale())
+
+  function initCurrentLocale() {
+    return localStorage.getItem('locale') || LOCALES.ENGLISH
+  }
+
   return (
-    <div>
-      <Header />
+    <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.ENGLISH}>
+      <Header currentLocale={currentLocale} setCurrentLocale={setCurrentLocale} />
       <Content />
       <Footer />
-    </div>
+    </IntlProvider>
   );
 };
 
