@@ -84,3 +84,8 @@ nav ul li a {
 .mt {
   margin-top: 20px;
 }
+
+.switcher select {
+  width: 99px;
+  height: 30px;
+}
